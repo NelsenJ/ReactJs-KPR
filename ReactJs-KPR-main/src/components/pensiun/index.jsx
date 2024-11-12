@@ -7,6 +7,7 @@ import QuestionImg from "../items/questionImg";
 import Question1 from "../items/question1";
 import QuestionBox from "../items/questionBox";
 
+//hello ngantuk nn ak
 export default function PENSI() {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [propertyPrice, setPropertyPrice] = useState(0);
@@ -17,11 +18,11 @@ export default function PENSI() {
     const [showResult, setShowResult] = useState(false);
 
     //Pensiun
-    const [monthlyExpense, setMonthlyExpense] = useState(0); // Pengeluaran per bulan
-    const [annualExpense, setAnnualExpense] = useState(0); // Pengeluaran per tahun
-    const [currentAge, setCurrentAge] = useState(0); // Umur sekarang
-    const [retirementAge, setRetirementAge] = useState(0); // Umur pensiun
-    const [annualInflation, setAnnualInflation] = useState(0); // Inflasi tahunan
+    const [monthlyExpense, setMonthlyExpense] = useState(0);
+    const [annualExpense, setAnnualExpense] = useState(0);
+    const [currentAge, setCurrentAge] = useState(0);
+    const [retirementAge, setRetirementAge] = useState(0);
+    const [annualInflation, setAnnualInflation] = useState(0);
     const [annualExpenseAtRetirement, setAnnualExpenseAtRetirement] = useState(0);
     const [availableRetirementFund, setAvailableRetirementFund] = useState(0);
     const [monthlyInvestmentTarget, setMonthlyInvestmentTarget] = useState(0);
@@ -173,9 +174,8 @@ export default function PENSI() {
             
             setAnnualExpenseAtRetirement(expenseAtRetirement);
             
-            // Hitung total uang yang dibutuhkan berdasarkan 4% rule
             const totalAmountNeeded = calculateTotalAmountNeeded();
-            setTotalAmountNeeded(totalAmountNeeded); // Set state untuk totalAmountNeeded
+            setTotalAmountNeeded(totalAmountNeeded);
         }
     };
 
@@ -185,7 +185,7 @@ export default function PENSI() {
     };
 
     const calculateTotalAmountNeeded = () => {
-        const totalAmountNeeded = annualExpenseAtRetirement * 25; // 4% rule
+        const totalAmountNeeded = annualExpenseAtRetirement * 25;
         return totalAmountNeeded;
     };
     
@@ -244,7 +244,7 @@ export default function PENSI() {
                 {showSteps.boxOne && (
                     <QuestionBox 
                         title="Pengeluaran / tahun"
-                        text={formatCurrency(annualExpense)} // Display formatted annual expense
+                        text={formatCurrency(annualExpense)}
                         color="#014737"
                     />
                 )}
@@ -283,14 +283,14 @@ export default function PENSI() {
             {showSteps.boxTwo && (
                 <QuestionBox 
                     title="Pengeluaran tahunan saat mulai pensiun nanti"
-                    text={formatCurrency(annualExpenseAtRetirement)} // Menampilkan pengeluaran pensiun
+                    text={formatCurrency(annualExpenseAtRetirement)}
                     color="#014737"
                 />
             )}
             {showSteps.boxThree && (
                 <QuestionBox 
                     title={`Uang yang kamu butuhkan ${retirementAge - currentAge} Tahun lagi berdasarkan 4% rule`}
-                    text={formatCurrency(totalAmountNeeded)} // Menampilkan jumlah uang yang dibutuhkan tanpa pembulatan
+                    text={formatCurrency(totalAmountNeeded)}
                     color="#014737"
                 />
             )}
@@ -327,11 +327,11 @@ export default function PENSI() {
             {showSteps.boxFour && (
                 <QuestionBox 
                     title={"Kamu akan pensiun dalam"}
-                    text={`${retirementAge - currentAge} tahun`} // Menampilkan jumlah uang yang dibutuhkan tanpa pembulatan
+                    text={`${retirementAge - currentAge} tahun`}
                     color="#014737"
                 />
             )}
-            
+
                 {showSteps.boxFive && (
                     <div className="hasil">
                         <div>
