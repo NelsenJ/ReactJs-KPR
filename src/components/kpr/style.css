@@ -48,28 +48,6 @@ body {
   position: relative;
 }
 
-/* Quotes Styles */
-.quotes {
-  background-color: #334155;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 2rem;
-}
-
-.quotes box-icon {
-  flex-grow: 1;
-  width: 15px;
-  height: 16px;
-}
-
-.quotes p {
-  flex-grow: 5;
-  font-size: 0.85rem;
-}
-
 /* Question Image Styles */
 .questionImg1 {
   display: flex;
@@ -119,8 +97,8 @@ body {
   border-bottom: 10px solid transparent;
 }
 
-/* Common Styles for Question1 and QuestionBox */
-.question1, .questionBox {
+/* Common Styles for QuestionRp and QuestionBox */
+.question-Rp, .question-Perc, .questionBox {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -163,23 +141,53 @@ body {
   margin-right: 1rem;
 }
 
-/* Question1 Specific Styles */
-.question1 input {
-  flex-grow: 1;
+/* Question-Rp, .question-Perc Specific Styles */
+.question-Rp input, .question-Perc input, .question-Year input {
   background-color: transparent;
   border: none;
   color: #FFFFFF;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0;
   position: relative;
   z-index: 1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.question1 input:focus {
+.question-Perc input, .question-Year input {
+  width: 3rem;
+}
+
+.input-group hr {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #64748B;
+  margin: 0.3rem 0;
+}
+
+.input-group:hover hr {
+  border-bottom-color: #3498db;
+}
+
+.input-group:focus-within hr {
+  border-bottom-color: #3498db;
+}
+
+
+.question-Rp input:hover, .question-Perc input:hover, .question-Year input:hover {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+}
+
+.question-Rp input:focus, .question-Perc input:focus, .question-Year input:focus {
   outline: none;
 }
 
-.question1 .underscore {
+.questionRp .underscore, .questionPerc .underscore, .questionYear .underscore {
   position: absolute;
   bottom: 0;
   left: 3rem;
@@ -187,10 +195,27 @@ body {
   border-bottom: 2px solid #64748B;
 }
 
-.question1 .input-container p {
+.questionRp .input-container p, .questionPerc .input-container p, .questionYear .input-container p {
   color: #64748B;
   font-size: 0.9rem;
   margin-right: 0.5rem;
+}
+
+.question-Rp .sigmatext, .question-Perc .sigmatext, .question-Year .sigmatext {
+  color: #64748B;
+  font-size: 0.9rem;
+}
+
+.question-Rp .sigmatext {
+  margin-right: 0.5rem;
+}
+
+.question-Perc .sigmatext, .question-Year .sigmatext {
+  margin-left: 0.5rem;
+}
+
+.question-Year {
+  margin-left: 1rem;
 }
 
 /* QuestionBox Specific Styles */

@@ -1,0 +1,24 @@
+.quotes {
+    background-color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+  }
+  
+  .quotes box-icon {
+    flex-grow: 1;
+    width: 15px;
+    height: 16px;
+  }
+  
+  .quotes p {
+    flex-grow: 5;
+    font-size: 0.85rem;
+  }
+
+box-icon {
+    margin-right: 0.5rem;
+}

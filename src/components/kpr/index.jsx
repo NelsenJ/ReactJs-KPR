@@ -4,8 +4,11 @@ import "./style.css";
 import Footer from "../items/footer";
 import 'boxicons';
 import QuestionImg from "../items/questionImg";
-import Question1 from "../items/question1";
+import QuestionRp from "../items/question-Rp";
+import QuestionPerc from "../items/question-Perc";
 import QuestionBox from "../items/questionBox";
+import QuestionYear from "../items/question-Year";
+import Quote from "../items/quote";
 
 export default function KPR() {
     const [isDarkMode, setIsDarkMode] = useState(true);
@@ -123,7 +126,7 @@ export default function KPR() {
                     <span onClick={handleClick}>
                         <box-icon name='arrow-back'></box-icon>
                     </span>
-                    <h1 className="header-title">🏚️Simulasi KPR</h1>
+                    <h1 className="header-title">🏚️ Simulasi KPR</h1>
                     <p className="header-dark-mode" onClick={toggleDarkMode}>
                         {isDarkMode ? '☀️' : '🌙'}
                     </p>
@@ -131,10 +134,7 @@ export default function KPR() {
             </div>
 
             <div className="content">
-                <div className="quotes animate-slide-right">
-                    <box-icon type='solid' name='quote-alt-left' color="#808B9C"></box-icon>
-                    <p>Failing to plan is planning to fail</p>
-                </div>
+                <Quote />
 
                 {showSteps.imgOne && (
                     <QuestionImg 
@@ -144,14 +144,14 @@ export default function KPR() {
                 )}
 
                 {showSteps.step1 && (
-                    <Question1 
+                    <QuestionRp
                         title="Harga Properti Impianmu Saat Ini"
                         onValueChange={handlePropertyPriceChange}
                     />
                 )}
 
                 {showSteps.step2 && (
-                    <Question1 
+                    <QuestionPerc 
                         title="Berapa % yang mau kamu DP (Down Payment)"
                         onValueChange={handleDownPaymentChange}
                     />
@@ -166,7 +166,7 @@ export default function KPR() {
                 )}
 
                 {showSteps.step3 && (
-                    <Question1 
+                    <QuestionRp
                         title="Penghasilan bulananmu"
                         onValueChange={handleMonthlyIncomeChange}
                     />
@@ -181,14 +181,14 @@ export default function KPR() {
                 )}
 
                 {showSteps.step4 && (
-                    <Question1 
-                        title="Kamu mau KPR berapa lama? (tahun)"
+                    <QuestionYear
+                        title="Kamu mau KPR berapa lama?"
                         onValueChange={handleLoanTermChange}
                     />
                 )}
 
                 {showSteps.step5 && (
-                    <Question1 
+                    <QuestionRp 
                         title="% Bunga fix"
                         onValueChange={handleFixedInterestChange}
                     />
