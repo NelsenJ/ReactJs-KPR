@@ -16,6 +16,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   transition: background-color 0.3s ease;
+  -webkit-transition: background-color 0.3s ease;
+  -moz-transition: background-color 0.3s ease;
+  -ms-transition: background-color 0.3s ease;
+  -o-transition: background-color 0.3s ease;
 }
 
 .header.hed {
@@ -523,7 +527,6 @@ body {
   height: 24px;
 }
 
-<<<<<<< HEAD
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -535,30 +538,3 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-=======
-/* Light mode styles for vertical line */
-.light-mode .vertical-line {
-  background-color: #1E293B; /* Adjust this color as needed for light mode */
-}
-
-.light-mode .question-Rp {
-  background-color: white;
-}
-
-.light-mode .animate-slide-right {
-  background-color: white;
-}
-
-.light-mode .questionBox {
-  background-color: white; /* Adjust color for light mode */
-  color: #1E293B; /* Adjust text color for light mode */
-}
-
-.light-mode .animate-slide-down {
-  animation: slideDown 0.5s ease-out forwards;
-}
-
-.light-mode .underline {
-  color: black;
-}
->>>>>>> 0746321e53bce8289078afb10514c033d4ae7084
