@@ -24,24 +24,20 @@ export default function Calculator() {
     
     const [showSteps, setShowSteps] = useState({
         step1: true, 
-        boxOne: false, 
         step2: false, 
-        boxTwo: false, 
         step3: false, 
-        boxThree: false, 
         step4: false, 
-        boxFour: false, 
         step5: false, 
-        boxFive: false,
         step6: false,
-        completed: false
+        completed: true
     });
 
     const navigate = useNavigate();
 
     const handleToggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
-        localStorage.setItem('darkMode', !isDarkMode);
+        const newMode = !isDarkMode;
+        setIsDarkMode(newMode);
+        localStorage.setItem('darkMode', newMode);
         document.body.classList.toggle('light-mode');
     };
 
@@ -61,42 +57,25 @@ export default function Calculator() {
         checkCompletion();
     }, [targetAmount, timeHorizon, initialAmount, contributionFrequency, contributionTiming, annualInvestmentTarget, expectedReturn, investmentDuration]);
 
-    const handleTargetAmountChange = (value) => {
-        setTargetAmount(Number(value));
-        setShowSteps((prev) => ({ ...prev, boxOne: true, step2: true }));
+    const handleInputChange = (setter, nextStep, value, stepToShow) => {
+        setter(Number(value));
+        setShowSteps((prev) => ({ ...prev, [nextStep]: true, [stepToShow]: true }));
     };
 
-    const handleTimeHorizonChange = (value) => {
-        setTimeHorizon(Number(value));
-        setShowSteps((prev) => ({ ...prev, boxTwo: true, step3: true }));
-    };
-
-    const handleInitialAmountChange = (value) => {
-        setInitialAmount(Number(value));
-        setShowSteps((prev) => ({ ...prev, boxThree: true, step4: true }));
-    };
-
+    const handleTargetAmountChange = (value) => handleInputChange(setTargetAmount, "boxOne", value, "step2");
+    const handleTimeHorizonChange = (value) => handleInputChange(setTimeHorizon, "boxTwo", value, "step3");
+    const handleInitialAmountChange = (value) => handleInputChange(setInitialAmount, "boxThree", value, "step4");
     const handleContributionFrequencyChange = (value) => {
         setContributionFrequency(value);
         setShowSteps((prev) => ({ ...prev, boxFour: true, step5: true }));
     };
-
     const handleContributionTimingChange = (value) => {
         setContributionTiming(value);
         setShowSteps((prev) => ({ ...prev, boxFive: true, step6: true }));
     };
-
-    const handleAnnualInvestmentTargetChange = (value) => {
-        setAnnualInvestmentTarget(Number(value));
-    };
-
-    const handleExpectedReturnChange = (value) => {
-        setExpectedReturn(Number(value));
-    };
-
-    const handleInvestmentDurationChange = (value) => {
-        setInvestmentDuration(Number(value));
-    };
+    const handleAnnualInvestmentTargetChange = (value) => setAnnualInvestmentTarget(Number(value));
+    const handleExpectedReturnChange = (value) => setExpectedReturn(Number(value));
+    const handleInvestmentDurationChange = (value) => setInvestmentDuration(Number(value));
 
     const formatCurrency = (number) => {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
@@ -111,7 +90,34 @@ export default function Calculator() {
                     </span>
                     <h1 className="header-title">🏚️ Kalkulator Investasi</h1>
                     <p className="header-dark-mode" onClick={handleToggleDarkMode}>
-                        {isDarkMode ? '☀️' : '🌙'}
+                    {isDarkMode ? (
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 64 64"
+                        width="32"
+                        height="32"
+                        >
+                        <circle cx="32" cy="32" r="10" fill="#fff" />
+                        <circle cx="36" cy="28" r="7" fill="#1E293B" />
+                        </svg>
+                    ) : (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 64 64"
+                            width="32"
+                            height="32"
+                        >
+                            <circle cx="32" cy="32" r="4" fill="#000" />
+                            <line x1="32" y1="20" x2="32" y2="24" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="32" y1="40" x2="32" y2="44" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="20" y1="32" x2="24" y2="32" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="40" y1="32" x2="44" y2="32" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="23" y1="23" x2="26" y2="26" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="38" y1="38" x2="41" y2="41" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="23" y1="41" x2="26" y2="38" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                            <line x1="41" y1="23" x2="38" y2="26" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
+                        </svg>
+                    )}
                     </p>
                 </div>
             </div>
