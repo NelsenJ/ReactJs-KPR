@@ -252,7 +252,7 @@ export default function PENSI() {
                 )}
 
                 {showSteps.step4 && (
-                    <Question_perc 
+                    <QuestionPerc 
                         title="Asumsi inflasi tahunan"
                         onValueChange={AsumsiInflasiTahunan}
                         unit="% / tahun"
@@ -296,7 +296,7 @@ export default function PENSI() {
                     />
                 )}
             {showSteps.step7 && (
-                <Question_perc 
+                <QuestionPerc 
                     title="Target return investasi per tahun"
                     onValueChange={handleInvestmentReturnChange}
                     unit="% / tahun"
