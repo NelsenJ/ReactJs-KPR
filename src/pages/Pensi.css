@@ -24,10 +24,11 @@
   .header{
     backdrop-filter: blur(10px)
   }
+  /* Header Styles */
   .header.hed {
-    background-color: #334155;
-    padding: 1rem;
-    border-bottom: 1px solid #475569;
+  background-color: rgba(255, 255, 255, 0) !important; /* Transparent white */
+  backdrop-filter: blur(10px); /* Blurs the background behind the navbar */
+  padding: 1rem;
   }
   
   .header-flex {
