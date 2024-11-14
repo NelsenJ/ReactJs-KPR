@@ -16,6 +16,10 @@ export default function Homepage() {
         navigate('/Calc')
     }
 
+    const pensiKPRClick = () =>{
+        navigate('/Pensiun')
+    }
+
     return (
         <>
             <Header />
@@ -62,7 +66,7 @@ export default function Homepage() {
                             <img src="https://feliciaputritjiasaka.com/assets/icon/launcher/menikah.webp" alt="Menikah" />
                             <p>Menikah</p>
                         </div>
-                        <div className="item">
+                        <div className="item" onClick={pensiKPRClick}>
                             <img src="https://feliciaputritjiasaka.com/assets/icon/launcher/dana-pensiun.webp" alt="Dana Pensiun" />
                             <p>Dana Pensiun</p>
                         </div>

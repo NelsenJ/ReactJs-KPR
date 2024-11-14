@@ -145,29 +145,30 @@ export default function Calculator() {
 
                 {showSteps.step1 && (
                     <QuestionRp
-                        title="Harga Properti Impianmu Saat Ini"
+                        title="Jumlah uang yang ingin kamu capai"
                         onValueChange={handlePropertyPriceChange}
                     />
                 )}
 
                 {showSteps.step2 && (
                     <QuestionPerc 
-                        title="Berapa % yang mau kamu DP (Down Payment)"
+                        title="Waktu mengumpulkan uang ini"
                         onValueChange={handleDownPaymentChange}
                     />
                 )}
 
                 {showSteps.boxOne && (
-                    <QuestionBox 
-                        title="Jumlah Pinjaman"
-                        text={formatCurrency(loanAmount)}
-                        color="#014737"
+                    <QuestionImg 
+                        imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-2.webp"
+                        text="Thank You!"
+                        text2={"Next, ayo atur strategi investasi kamu!"}
                     />
+
                 )}
 
                 {showSteps.step3 && (
                     <QuestionRp
-                        title="Penghasilan bulananmu"
+                        title="Uang yang kamu miliki saat ini sebesar"
                         onValueChange={handleMonthlyIncomeChange}
                     />
                 )}

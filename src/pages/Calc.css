@@ -20,9 +20,9 @@ body {
 
 /* Header Styles */
 .header.hed {
-  background-color: #334155;
+  background-color: rgba(255, 255, 255, 0); /* Transparent white */
+  backdrop-filter: blur(10px); /* Blurs the background behind the navbar */
   padding: 1rem;
-  border-bottom: 1px solid #475569;
 }
 
 .header-flex {
@@ -486,4 +486,16 @@ body {
 .close-result-summary box-icon {
   width: 24px;
   height: 24px;
+}
+
+.sigmatext{
+  font-weight: bold;
+  color: #fff !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
