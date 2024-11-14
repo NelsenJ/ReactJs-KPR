@@ -27,7 +27,6 @@ export default function PENSI() {
     const [annualReturn, setAnnualReturn] = useState(0);
     const [yearsUntilRetirement, setYearsUntilRetirement] = useState(0);
     const [showSteps, setShowSteps] = useState({
-
         imgOne: true, 
         step1: true, 
         step2: false, 
