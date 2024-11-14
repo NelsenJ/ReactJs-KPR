@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Calc.css";
 import Footer from "../components/items/footer";
@@ -7,128 +7,110 @@ import QuestionImg from "../components/items/questionImg";
 import QuestionRp from "../components/items/question-Rp";
 import QuestionOpt from "../components/items/questionOpt";
 import QuestionPerc from "../components/items/question-Perc";
-import QuestionBox from "../components/items/questionBox";
 import QuestionYear from "../components/items/question-Year";
 import Quote from "../components/items/quote";
 
 export default function Calculator() {
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const [propertyPrice, setPropertyPrice] = useState(0);
-    const [downPaymentPercentage, setDownPaymentPercentage] = useState(0);
-    const [monthlyIncome, setMonthlyIncome] = useState(0);
-    const [loanTerm, setLoanTerm] = useState(0);
-    const [fixedInterestRate, setFixedInterestRate] = useState(0);
+    const [targetAmount, setTargetAmount] = useState("");
+    const [timeHorizon, setTimeHorizon] = useState("");
+    const [initialAmount, setInitialAmount] = useState("");
+    const [annualInvestmentTarget, setAnnualInvestmentTarget] = useState("");
+    const [expectedReturn, setExpectedReturn] = useState("");
+    const [investmentDuration, setInvestmentDuration] = useState("");
+    const [contributionFrequency, setContributionFrequency] = useState("Tahun");
+    const [contributionTiming, setContributionTiming] = useState("Awal Tahun");
     const [showResult, setShowResult] = useState(false);
+    
     const [showSteps, setShowSteps] = useState({
-        imgOne: true, 
         step1: true, 
-        step2: false, 
-        step3: false,
         boxOne: false, 
+        step2: false, 
+        boxTwo: false, 
+        step3: false, 
+        boxThree: false, 
         step4: false, 
-        imgTwo: false, 
-        step5: false,
-        step6: false, 
-        boxTwo: false
+        boxFour: false, 
+        step5: false, 
+        boxFive: false,
+        step6: false,
+        completed: false
     });
 
     const navigate = useNavigate();
 
-    const loanAmount = useMemo(() => {
-        if (propertyPrice && downPaymentPercentage) {
-            const downPaymentAmount = (propertyPrice * downPaymentPercentage) / 100;
-            return propertyPrice - downPaymentAmount;
-        }
-        return 0;
-    }, [propertyPrice, downPaymentPercentage]);
-
-    const monthlyPayment = useMemo(() => {
-        if (loanAmount && loanTerm && fixedInterestRate) {
-            const monthlyInterest = fixedInterestRate / 12 / 100;
-            const numberOfPayments = loanTerm * 12;
-            return (loanAmount * monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) /
-                   (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
-        }
-        return 0;
-    }, [loanAmount, loanTerm, fixedInterestRate]);
-
-    const totalInterest = useMemo(() => {
-        if (monthlyPayment && loanTerm) {
-            return (monthlyPayment * loanTerm * 12) - loanAmount;
-        }
-        return 0;
-    }, [monthlyPayment, loanTerm, loanAmount]);
-
-    const monthlyPaymentRatio = useMemo(() => {
-        if (monthlyPayment && monthlyIncome) {
-            return (monthlyPayment / monthlyIncome) * 100;
-        }
-        return 0;
-    }, [monthlyPayment, monthlyIncome]);
-
-    useEffect(() => {
-        const savedMode = localStorage.getItem('darkMode');
-        if (savedMode !== null) {
-            setIsDarkMode(savedMode === 'true');
-            if (savedMode === 'false') {
-                document.body.classList.add('light-mode');
-            }
-        }
-    }, []);
-
-    const formatCurrency = (number) => {
-        return new Intl.NumberFormat('id-ID', { 
-            style: 'currency', 
-            currency: 'IDR' 
-        }).format(number);
-    };
-
-    const toggleDarkMode = () => {
+    const handleToggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
         localStorage.setItem('darkMode', !isDarkMode);
         document.body.classList.toggle('light-mode');
     };
 
-    const handleClick = () => {
+    const handleClickBack = () => {
         navigate('/');
     };
 
-    const handleShowResult = () => setShowResult(true);
-
-    const handlePropertyPriceChange = (value) => {
-        setPropertyPrice(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, step2: true}));
+    const checkCompletion = () => {
+        const allStepsCompleted = targetAmount && timeHorizon && initialAmount && 
+                                  contributionFrequency && contributionTiming && 
+                                  annualInvestmentTarget && expectedReturn && investmentDuration;
+        setShowSteps(prev => ({ ...prev, completed: Boolean(allStepsCompleted) }));
+        setShowResult(Boolean(allStepsCompleted));
     };
 
-    const handleDownPaymentChange = (value) => {
-        setDownPaymentPercentage(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, step3: true, boxOne: true}));
+    useEffect(() => {
+        checkCompletion();
+    }, [targetAmount, timeHorizon, initialAmount, contributionFrequency, contributionTiming, annualInvestmentTarget, expectedReturn, investmentDuration]);
+
+    const handleTargetAmountChange = (value) => {
+        setTargetAmount(Number(value));
+        setShowSteps((prev) => ({ ...prev, boxOne: true, step2: true }));
     };
 
-    const handleMonthlyIncomeChange = (value) => {
-        setMonthlyIncome(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, imgTwo: true, step4: true}));
+    const handleTimeHorizonChange = (value) => {
+        setTimeHorizon(Number(value));
+        setShowSteps((prev) => ({ ...prev, boxTwo: true, step3: true }));
     };
 
-    const handleLoanTermChange = (value) => {
-        setLoanTerm(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, step5: true}));
+    const handleInitialAmountChange = (value) => {
+        setInitialAmount(Number(value));
+        setShowSteps((prev) => ({ ...prev, boxThree: true, step4: true }));
     };
 
-    const handleFixedInterestChange = (value) => {
-        setFixedInterestRate(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, boxTwo: true}));
+    const handleContributionFrequencyChange = (value) => {
+        setContributionFrequency(value);
+        setShowSteps((prev) => ({ ...prev, boxFour: true, step5: true }));
+    };
+
+    const handleContributionTimingChange = (value) => {
+        setContributionTiming(value);
+        setShowSteps((prev) => ({ ...prev, boxFive: true, step6: true }));
+    };
+
+    const handleAnnualInvestmentTargetChange = (value) => {
+        setAnnualInvestmentTarget(Number(value));
+    };
+
+    const handleExpectedReturnChange = (value) => {
+        setExpectedReturn(Number(value));
+    };
+
+    const handleInvestmentDurationChange = (value) => {
+        setInvestmentDuration(Number(value));
+    };
+
+    const formatCurrency = (number) => {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
     };
 
     return (
         <>
             <div className="header hed">
                 <div className="header-flex">
-                    <span onClick={handleClick}>
+                    <span onClick={handleClickBack}>
                         <box-icon name='arrow-back'></box-icon>
                     </span>
                     <h1 className="header-title">🏚️ Kalkulator Investasi</h1>
-                    <p className="header-dark-mode" onClick={toggleDarkMode}>
+                    <p className="header-dark-mode" onClick={handleToggleDarkMode}>
                         {isDarkMode ? '☀️' : '🌙'}
                     </p>
                 </div>
@@ -137,35 +119,17 @@ export default function Calculator() {
             <div className="content">
                 <Quote />
 
-                {showSteps.imgOne && (
+                {showSteps.step1 && (
                     <QuestionImg 
                         imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-3.webp"
-                        text="Kita mulai dari properti impianmu."
+                        text="Yuk, ceritain mimpimu."
                     />
                 )}
+
                 {showSteps.step1 && (
                     <QuestionRp
                         title="Jumlah uang yang ingin kamu capai"
-                        onValueChange={handlePropertyPriceChange}
-                    />
-                )}
-
-                <div className="preset-options">
-                    {[10000000, 50000000, 100000000, 1000000000].map((amount) => (
-                        <button 
-                            key={amount} 
-                            onClick={() => handlePropertyPriceChange(amount)} 
-                            className="preset-option-button"
-                        >
-                            {formatCurrency(amount)}
-                        </button>
-                    ))}
-                </div>
-
-                {showSteps.step2 && (
-                    <QuestionYear 
-                        title="Waktu mengumpulkan uang ini"
-                        onValueChange={handleDownPaymentChange}
+                        onValueChange={handleTargetAmountChange}
                     />
                 )}
 
@@ -173,14 +137,29 @@ export default function Calculator() {
                     <QuestionImg 
                         imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-2.webp"
                         text="Thank You!"
-                        text2={"Next, ayo atur strategi investasi kamu!"}
+                        text2="Next, ayo atur strategi investasi kamu!"
+                    />
+                )}
+
+                {showSteps.step2 && (
+                    <QuestionYear 
+                        title="Waktu mengumpulkan uang ini"
+                        onValueChange={handleTimeHorizonChange}
+                    />
+                )}
+
+                {showSteps.boxTwo && (
+                    <QuestionImg 
+                        imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-4.webp"
+                        text="Mari kita lanjutkan!"
+                        text2="Selanjutnya, isi berapa uang yang sudah kamu miliki."
                     />
                 )}
 
                 {showSteps.step3 && (
                     <QuestionRp
                         title="Uang yang kamu miliki saat ini sebesar"
-                        onValueChange={handleMonthlyIncomeChange}
+                        onValueChange={handleInitialAmountChange}
                     />
                 )}
 
@@ -191,7 +170,7 @@ export default function Calculator() {
                             { label: "Tahun", value: "Tahun" },
                             { label: "Bulan", value: "Bulan" },
                         ]}
-                        onValueChange={handleLoanTermChange}
+                        onValueChange={handleContributionFrequencyChange}
                     />
                 )}
 
@@ -199,26 +178,30 @@ export default function Calculator() {
                     <QuestionOpt
                         title="Kamu akan menambahkan dana pada"
                         options={[
-                            { label: "Awal", value: "Awal Tahun" },
-                            { label: "Akhir", value: "Akhir Tahun" },
+                            { label: "Awal Tahun", value: "Awal Tahun" },
+                            { label: "Akhir Tahun", value: "Akhir Tahun" },
                         ]}
-                        onValueChange={handleLoanTermChange}
+                        onValueChange={handleContributionTimingChange}
                     />
                 )}
-
-                {showSteps.boxTwo && (
+                
+                {showSteps.step6 && (
                     <QuestionRp
                         title="Target investasimu tiap tahun sebesar"
-                        text={formatCurrency(monthlyPayment)}
-                        color="#334155"
+                        onValueChange={handleAnnualInvestmentTargetChange}
                     />
                 )}
 
-                {showSteps.step6 && (
-                    <QuestionPerc
-                        title="Kamu akan investasi di produk yang returnnya"
-                        onValueChange={handleFixedInterestChange}
-                    />
+                {showSteps.completed && (
+                    <div className="hasil">
+                        <div>
+                            <p>Strategi investasimu sudah siap!</p>
+                            <p>Ayo lihat hasil strategimu di bawah ini.</p>
+                        </div>
+                        <button onClick={() => setShowResult(true)}>
+                            <box-icon name='chevron-right' color="#FFFFFF"></box-icon> Lihat Hasil
+                        </button>
+                    </div>
                 )}
 
                 {showResult && (
@@ -228,77 +211,8 @@ export default function Calculator() {
                                 <box-icon name='x'></box-icon>
                             </span>
                         </div>
-                        <h1>Analisa</h1>
-                        <div className="analysis">
-                            <div className="top">
-                                <box-icon name='info-circle'></box-icon>
-                                <p>Total bunga KPR yang harus kamu bayarkan adalah {formatCurrency(totalInterest)} setara dengan {((totalInterest / loanAmount) * 100).toFixed(2)}% dari pokok pinjamanmu.</p>
-                            </div>
-                            <div className="bottom">
-                                <box-icon name='happy-heart-eyes'></box-icon>
-                                <div>
-                                    <p>Cicilan KPRmu dalam rentang {formatCurrency(monthlyPayment)} dan ini setara dengan {monthlyPaymentRatio.toFixed(2)}% dari penghasilan bulananmu.</p>
-                                    {monthlyPaymentRatio > 30 && (
-                                        <>
-                                            <p className="analysis-color">Rasio ini sudah berbahaya, karena berpotensi mengganggu cash flow mu di masa depan.</p>
-                                            <p className="analysis-color">Pertimbangkan untuk menambah DP atau memperpanjang masa KPR mu.</p>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <h1>Strategimu</h1>
-                        <div className="strategy">
-                            <div>
-                                <box-icon type='solid' name='bank'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Pokok Pinjaman</h1>
-                                    <h1>{formatCurrency(loanAmount)}</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon name='credit-card' type='solid'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Periode KPR</h1>
-                                    <h1>{loanTerm} Tahun ({loanTerm * 12} Bulan)</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon name='money'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Bunga Fix</h1>
-                                    <h1>{fixedInterestRate}%</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon type='solid' name='bank'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Total Bunga KPR</h1>
-                                    <h1>{formatCurrency(totalInterest)}</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon name='credit-card' type='solid'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Angsuran Bulanan</h1>
-                                    <h1>{formatCurrency(monthlyPayment)}</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon name='money'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>% Total Bunga dari Pokok Pinjaman</h1>
-                                    <h1>{((totalInterest / loanAmount) * 100).toFixed(2)}%</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <h1>Hasil Strategi Investasimu</h1>
+                        <p>Dengan return {expectedReturn}% per tahun dan investasi rutin sebesar {formatCurrency(annualInvestmentTarget)}, kamu bisa mencapai target investasi senilai {formatCurrency(targetAmount)} dalam {investmentDuration} tahun.</p>
                     </div>
                 )}
             </div>
