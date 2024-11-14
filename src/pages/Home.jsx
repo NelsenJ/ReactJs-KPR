@@ -1,8 +1,8 @@
 // Homepage.jsx
 import { useNavigate } from "react-router-dom";
-import "./style.css";
-import Footer from "../items/footer";
-import Header from "../items/header";  // sesuaikan path sesuai struktur folder
+import "./Home.css";
+import Footer from "../components/items/footer";
+import Header from "../components/items/header";  // sesuaikan path sesuai struktur folder
 import 'boxicons';
 
 export default function Homepage() {
@@ -12,6 +12,10 @@ export default function Homepage() {
         navigate('/KPR');
     };
 
+    const calcKPRClick = () =>{
+        navigate('/Calc')
+    }
+
     return (
         <>
             <Header />
@@ -20,9 +24,9 @@ export default function Homepage() {
                 <div className="introduction">
                     <div className="introduction-biodata">
                         <h1>Hi, Namaku</h1>
-                        <h1>Sepri</h1>
-                        <p>Guru Ignatius Global School Palembang</p>
-                        <p>di Jurusan Komputer</p>
+                        <h1>Felicia Putri Tjiasaka</h1>
+                        <p>Investment Storyteller, Content Creator & Pengusaha</p>
+                        <p>di Industri Keuangan dan Investasi.</p>
                     </div>
                     <img 
                         className="introduction-image" 
@@ -42,7 +46,7 @@ export default function Homepage() {
                             <img src="https://feliciaputritjiasaka.com/assets/icon/launcher/simulasi-kpr.webp" alt="Simulasi KPR" />
                             <p>Simulasi KPR</p>
                         </div>
-                        <div className="item">
+                        <div className="item" onClick={calcKPRClick}>
                             <img src="https://feliciaputritjiasaka.com/assets/icon/launcher/annuity.webp" alt="Kalkulator Investasi" />
                             <p>Kalkulator Investasi</p>
                         </div>

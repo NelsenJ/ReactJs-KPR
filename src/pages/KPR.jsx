@@ -1,14 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
-import Footer from "../items/footer";
+import "./KPR.css";
+import Footer from "../components/items/footer";
 import 'boxicons';
-import QuestionImg from "../items/questionImg";
-import QuestionRp from "../items/question-Rp";
-import QuestionPerc from "../items/question-Perc";
-import QuestionBox from "../items/questionBox";
-import QuestionYear from "../items/question-Year";
-import Quote from "../items/quote";
+import QuestionImg from "../components/items/questionImg";
+import QuestionRp from "../components/items/question-Rp";
+import QuestionPerc from "../components/items/question-Perc";
+import QuestionBox from "../components/items/questionBox";
+import QuestionYear from "../components/items/question-Year";
+import Quote from "../components/items/quote";
 
 export default function KPR() {
     const [isDarkMode, setIsDarkMode] = useState(true);

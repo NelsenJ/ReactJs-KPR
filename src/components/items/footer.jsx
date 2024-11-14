@@ -5,7 +5,7 @@ export default function Footer() {
             <div className="footer">
                 <p>
                     © 2021 - 2024
-                    <a className="winson" href="">WNNGTKJ</a>
+                    <a href="//instagram.com/feliciaputritjiasaka" className="underline">Felicia Putri Tjiasaka</a>
                     <span>. All Right
                     Reserved.
                     </span>
