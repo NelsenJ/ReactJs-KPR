@@ -554,3 +554,12 @@ div.footer{
   bottom: 0;
 }
 
+div.strategy div{
+  display: flex;
+  flex-direction: row;
+}
+
+div.strategy div div.strategy-content{
+  display: flex;
+  flex-direction: column;
+}

@@ -254,7 +254,62 @@ export default function Calculator() {
                             </span>
                         </div>
                         <h1>Hasil Strategi Investasimu</h1>
-                        <p>Dengan return {expectedReturn}% per tahun dan investasi rutin sebesar {formatCurrency(annualInvestmentTarget)}, kamu bisa mencapai target investasi senilai {formatCurrency(targetAmount)} dalam {investmentDuration} tahun.</p>
+
+                        <div className="strategy">
+                            <div>
+                                <box-icon type="solid" name="bank">#shadow-root (open)</box-icon>
+                                <div className="strategy-content">
+                                    <h1>Uangmu Saat Ini</h1>
+                                    <h1>&nbsp;</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <box-icon type="solid" name="bank">#shadow-root (open)</box-icon>
+                                <div className="strategy-content">
+                                    <h1>Target Investasi</h1>
+                                    <h1>&nbsp;{formatCurrency(targetAmount)}</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <box-icon type="solid" name="bank">#shadow-root (open)</box-icon>
+                                <div className="strategy-content">
+                                    <h1>Jumlah investasi / bulan</h1>
+                                    <h1>&nbsp;{formatCurrency(annualInvestmentTarget)}</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <box-icon type="solid" name="bank">#shadow-root (open)</box-icon>
+                                <div className="strategy-content">
+                                    <h1>Return Investasi</h1>
+                                    <h1>{expectedReturn}%</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <box-icon type="solid" name="bank">#shadow-root (open)</box-icon>
+                                <div className="strategy-content">
+                                    <h1>Lama Investasi</h1>
+                                    <h1>{investmentDuration}</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <box-icon type="solid" name="bank">#shadow-root (open)</box-icon>
+                                <div className="strategy-content">
+                                    <h1>Jumlah Investasi</h1>
+                                    <h1>&nbsp;{formatCurrency(targetAmount)}</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
