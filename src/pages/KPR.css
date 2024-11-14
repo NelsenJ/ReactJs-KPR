@@ -329,6 +329,28 @@ body {
   margin-top: 1rem;
 }
 
+.light-mode .hasil {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+.light-mode .butttt {
+  color: black;
+}
+
+.light-mode .yay {
+  color: black;
+}
+
+.light-mode .yok {
+  color: black;
+}
+
 .hasil div {
   color: #FFFFFF;
 }
@@ -547,4 +569,12 @@ body {
 
 .light-mode .underline {
   color: black;
+}
+
+.light-mode div#icon{
+  fill: rgb(0, 0, 0);
+}
+
+.light-mode .text .sigmatext {
+  background-color: #0F172A;
 }

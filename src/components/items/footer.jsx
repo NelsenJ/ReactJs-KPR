@@ -1,4 +1,7 @@
+import { useTheme } from '../contexts/ThemeContext';
+
 export default function Footer() {
+    const { isDarkMode, toggleDarkMode } = useTheme();
 
     return (
         <>
@@ -11,9 +14,25 @@ export default function Footer() {
                     </span>
                 </p>
                 <div className="social-media">
-                    <box-icon name='youtube' type='logo' animation='tada' color='#ffffff' ></box-icon>
-                    <box-icon name='instagram' type='logo' animation='tada' color='#ffffff' ></box-icon>
-                    <box-icon name='tiktok' type='logo' animation='tada' color='#ffffff' ></box-icon>
+                    <box-icon 
+                        name="youtube" 
+                        type="logo" 
+                        animation="tada" 
+                        color={isDarkMode ? "#FFFFFF" : "#000000"} 
+                    ></box-icon>
+                    <box-icon 
+                        name="instagram" 
+                        type="logo" 
+                        animation="tada" 
+                        color={isDarkMode ? "#FFFFFF" : "#000000"} 
+                    ></box-icon>
+                    <box-icon 
+                        name="tiktok" 
+                        type="logo" 
+                        animation="tada" 
+                        color={isDarkMode ? "#FFFFFF" : "#000000"} 
+                    ></box-icon>
+
                 </div>
             </div>     
         </>
