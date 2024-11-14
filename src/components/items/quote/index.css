@@ -1,3 +1,13 @@
+.light-mode .quotes {
+  background-color: rgb(226, 232, 240);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
+
 .quotes {
     background-color: #334155;
     display: flex;
@@ -17,6 +27,10 @@
   .quotes p {
     flex-grow: 5;
     font-size: 0.85rem;
+  }
+
+  .light-mode .quotes p {
+    color: black;
   }
 
 box-icon {

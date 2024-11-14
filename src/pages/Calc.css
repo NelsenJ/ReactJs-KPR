@@ -206,6 +206,7 @@ body {
   font-size: 0.9rem;
 }
 
+
 .question-Rp .sigmatext {
   margin-right: 0.5rem;
 }
@@ -497,6 +498,7 @@ body {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  display: none;
   margin: 0;
 }
 
@@ -534,7 +536,7 @@ input::-webkit-inner-spin-button {
 
 .option-button {
   padding: 10px 20px;
-  background-color: #334155;
+  background-color: rgb(51 65 85);
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -542,6 +544,13 @@ input::-webkit-inner-spin-button {
   transition: background-color 0.3s;
 }
 
-.option-button:hover {
-  background-color: #4b5563;
+.option-button:hover,
+.option-button:active{
+  background-color: rgb(164 202 254);
 }
+
+div.footer{
+  position: relative;
+  bottom: 0;
+}
+
