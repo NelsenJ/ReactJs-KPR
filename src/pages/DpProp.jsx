@@ -126,7 +126,7 @@ export default function KPR() {
                     <span onClick={handleClick}>
                         <box-icon name='arrow-back'></box-icon>
                     </span>
-                    <h1 className="header-title">🏚️ Simulasi KPR</h1>
+                    <h1 className="header-title">🏚️ DP Properti</h1>
                     <p className="header-dark-mode" onClick={toggleDarkMode}>
                         {isDarkMode ? '☀️' : '🌙'}
                     </p>
@@ -139,7 +139,7 @@ export default function KPR() {
                 {showSteps.imgOne && (
                     <QuestionImg 
                         imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-3.webp"
-                        text="Kita mulai dari properti impianmu."
+                        text="Yuk, ceritain mimpimu."
                     />
                 )}
 
