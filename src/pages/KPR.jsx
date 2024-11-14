@@ -130,16 +130,6 @@ export default function KPR() {
                     <p className="header-dark-mode" onClick={toggleDarkMode}>
                     {isDarkMode ? (
                         <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 64 64"
-                        width="32"
-                        height="32"
-                        >
-                        <circle cx="32" cy="32" r="10" fill="#fff" />
-                        <circle cx="36" cy="28" r="7" fill="#1E293B" />
-                        </svg>
-                    ) : (
-                        <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 64 64"
                             width="32"
@@ -154,6 +144,16 @@ export default function KPR() {
                             <line x1="38" y1="38" x2="41" y2="41" stroke="#505070" stroke-width="3" stroke-linecap="round" />
                             <line x1="23" y1="41" x2="26" y2="38" stroke="#505070" stroke-width="3" stroke-linecap="round" />
                             <line x1="41" y1="23" x2="38" y2="26" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                        </svg>
+                    ) : (
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 64 64"
+                        width="32"
+                        height="32"
+                        >
+                        <circle cx="32" cy="32" r="10" fill="#fff" />
+                        <circle cx="36" cy="28" r="7" fill="#1E293B" />
                         </svg>
                     )}
                     </p>
