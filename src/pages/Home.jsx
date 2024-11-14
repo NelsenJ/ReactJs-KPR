@@ -19,6 +19,9 @@ export default function Homepage() {
     const pensiKPRClick = () =>{
         navigate('/Pensiun')
     }
+    const DDClick = () =>{
+        navigate('/Dana-Darurat')
+    }
 
     return (
         <>
@@ -54,7 +57,7 @@ export default function Homepage() {
                             <img src="https://feliciaputritjiasaka.com/assets/icon/launcher/annuity.webp" alt="Kalkulator Investasi" />
                             <p>Kalkulator Investasi</p>
                         </div>
-                        <div className="item">
+                        <div className="item" onClick={DDClick}>
                             <img src="https://feliciaputritjiasaka.com/assets/icon/launcher/dana-darurat.webp" alt="Dana Darurat" />
                             <p>Dana Darurat</p>
                         </div>
