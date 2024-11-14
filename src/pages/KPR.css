@@ -548,3 +548,22 @@ body {
 .light-mode .underline {
   color: black;
 }
+
+div.footer{
+  position: relative;
+  margin-top: 40px;
+  height: 30px;
+}
+
+div.content{
+  min-height: 100vh;
+}
+
+hr{
+  border-color: gray;
+  width: 500px;
+}
+
+hr.light{
+  border-color: rgba(239,241,245,255);
+}

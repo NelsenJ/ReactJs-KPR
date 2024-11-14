@@ -548,3 +548,9 @@ input::-webkit-inner-spin-button {
 .option-button:active{
   background-color: rgb(164 202 254);
 }
+
+div.footer{
+  position: relative;
+  bottom: 0;
+}
+
