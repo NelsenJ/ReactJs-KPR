@@ -5,6 +5,7 @@ export default function Footer() {
 
     return (
         <>
+            <hr />
             <div className="footer">
                 <p>
                     © 2021 - 2024

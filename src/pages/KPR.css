@@ -571,10 +571,21 @@ body {
   color: black;
 }
 
-.light-mode div#icon{
-  fill: rgb(0, 0, 0);
+div.footer{
+  position: relative;
+  margin-top: 40px;
+  height: 30px;
 }
 
-.light-mode .text .sigmatext {
-  background-color: #0F172A;
+div.content{
+  min-height: 100vh;
+}
+
+hr{
+  border-color: gray;
+  width: 500px;
+}
+
+hr.light{
+  border-color: rgba(239,241,245,255);
 }
