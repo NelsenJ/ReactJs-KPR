@@ -20,16 +20,17 @@ export default function Calculator() {
     const [investmentDuration, setInvestmentDuration] = useState("");
     const [contributionFrequency, setContributionFrequency] = useState("Tahun");
     const [contributionTiming, setContributionTiming] = useState("Awal Tahun");
+
     const [showResult, setShowResult] = useState(false);
-    
+
     const [showSteps, setShowSteps] = useState({
-        step1: true, 
-        step2: false, 
-        step3: false, 
-        step4: false, 
-        step5: false, 
+        step1: true,
+        step2: false,
+        step3: false,
+        step4: false,
+        step5: false,
         step6: false,
-        completed: true
+        completed: false
     });
 
     const navigate = useNavigate();
@@ -46,36 +47,71 @@ export default function Calculator() {
     };
 
     const checkCompletion = () => {
-        const allStepsCompleted = targetAmount && timeHorizon && initialAmount && 
-                                  contributionFrequency && contributionTiming && 
-                                  annualInvestmentTarget && expectedReturn && investmentDuration;
+        const allStepsCompleted = 
+            targetAmount && timeHorizon && initialAmount && 
+            contributionFrequency && contributionTiming && 
+            annualInvestmentTarget;
+        
         setShowSteps(prev => ({ ...prev, completed: Boolean(allStepsCompleted) }));
-        setShowResult(Boolean(allStepsCompleted));
+        
+        if (allStepsCompleted) {
+            console.log("All steps completed, showing result.");
+        } else {
+            console.log("Not all steps are completed yet.");
+        }
     };
 
     useEffect(() => {
         checkCompletion();
-    }, [targetAmount, timeHorizon, initialAmount, contributionFrequency, contributionTiming, annualInvestmentTarget, expectedReturn, investmentDuration]);
+    }, [targetAmount, timeHorizon, initialAmount, contributionFrequency, contributionTiming, annualInvestmentTarget]);
 
     const handleInputChange = (setter, nextStep, value, stepToShow) => {
+        console.log(`Setting ${nextStep} with value:`, value);
         setter(Number(value));
-        setShowSteps((prev) => ({ ...prev, [nextStep]: true, [stepToShow]: true }));
+        setShowSteps(prev => ({ ...prev, [nextStep]: true, [stepToShow]: true }));
     };
 
-    const handleTargetAmountChange = (value) => handleInputChange(setTargetAmount, "boxOne", value, "step2");
-    const handleTimeHorizonChange = (value) => handleInputChange(setTimeHorizon, "boxTwo", value, "step3");
-    const handleInitialAmountChange = (value) => handleInputChange(setInitialAmount, "boxThree", value, "step4");
+    const handleTargetAmountChange = (value) => {
+        console.log("Step 1 - Target Amount:", value);
+        handleInputChange(setTargetAmount, "boxOne", value, "step2");
+    };
+
+    const handleTimeHorizonChange = (value) => {
+        console.log("Step 2 - Time Horizon:", value);
+        handleInputChange(setTimeHorizon, "boxTwo", value, "step3");
+    };
+
+    const handleInitialAmountChange = (value) => {
+        console.log("Step 3 - Initial Amount:", value);
+        handleInputChange(setInitialAmount, "boxThree", value, "step4");
+    };
+
     const handleContributionFrequencyChange = (value) => {
+        console.log("Step 4 - Contribution Frequency:", value);
         setContributionFrequency(value);
-        setShowSteps((prev) => ({ ...prev, boxFour: true, step5: true }));
+        setShowSteps(prev => ({ ...prev, boxFour: true, step5: true }));
     };
+
     const handleContributionTimingChange = (value) => {
+        console.log("Step 5 - Contribution Timing:", value);
         setContributionTiming(value);
-        setShowSteps((prev) => ({ ...prev, boxFive: true, step6: true }));
+        setShowSteps(prev => ({ ...prev, boxFive: true, step6: true }));
     };
-    const handleAnnualInvestmentTargetChange = (value) => setAnnualInvestmentTarget(Number(value));
-    const handleExpectedReturnChange = (value) => setExpectedReturn(Number(value));
-    const handleInvestmentDurationChange = (value) => setInvestmentDuration(Number(value));
+
+    const handleAnnualInvestmentTargetChange = (value) => {
+        console.log("Step 6 - Annual Investment Target:", value);
+        setAnnualInvestmentTarget(Number(value));
+    };
+
+    const handleExpectedReturnChange = (value) => {
+        console.log("Setting Expected Return:", value);
+        setExpectedReturn(Number(value));
+    };
+
+    const handleInvestmentDurationChange = (value) => {
+        console.log("Setting Investment Duration:", value);
+        setInvestmentDuration(Number(value));
+    };
 
     const formatCurrency = (number) => {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
@@ -92,6 +128,23 @@ export default function Calculator() {
                     <p className="header-dark-mode" onClick={handleToggleDarkMode}>
                     {isDarkMode ? (
                         <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 64 64"
+                            width="32"
+                            height="32"
+                        >
+                            <circle cx="32" cy="32" r="4" fill="#000" />
+                            <line x1="32" y1="20" x2="32" y2="24" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="32" y1="40" x2="32" y2="44" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="20" y1="32" x2="24" y2="32" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="40" y1="32" x2="44" y2="32" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="23" y1="23" x2="26" y2="26" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="38" y1="38" x2="41" y2="41" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="23" y1="41" x2="26" y2="38" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                            <line x1="41" y1="23" x2="38" y2="26" stroke="#505070" stroke-width="3" stroke-linecap="round" />
+                        </svg>
+                    ) : (
+                        <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 64 64"
                         width="32"
@@ -99,23 +152,6 @@ export default function Calculator() {
                         >
                         <circle cx="32" cy="32" r="10" fill="#fff" />
                         <circle cx="36" cy="28" r="7" fill="#1E293B" />
-                        </svg>
-                    ) : (
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 64 64"
-                            width="32"
-                            height="32"
-                        >
-                            <circle cx="32" cy="32" r="4" fill="#000" />
-                            <line x1="32" y1="20" x2="32" y2="24" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="32" y1="40" x2="32" y2="44" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="20" y1="32" x2="24" y2="32" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="40" y1="32" x2="44" y2="32" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="23" y1="23" x2="26" y2="26" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="38" y1="38" x2="41" y2="41" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="23" y1="41" x2="26" y2="38" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
-                            <line x1="41" y1="23" x2="38" y2="26" stroke="#505070" strokeWidth="3" strokeLinecap="round" />
                         </svg>
                     )}
                     </p>
@@ -205,7 +241,7 @@ export default function Calculator() {
                             <p>Ayo lihat hasil strategimu di bawah ini.</p>
                         </div>
                         <button onClick={() => setShowResult(true)}>
-                            <box-icon name='chevron-right' color="#FFFFFF"></box-icon> Lihat Hasil
+                            <box-icon name='chevron-right' color="#FFFFFF"></box-icon>
                         </button>
                     </div>
                 )}
