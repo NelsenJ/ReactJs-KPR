@@ -5,7 +5,7 @@ export default function Footer() {
             <div className="footer">
                 <p>
                     © 2021 - 2024
-                    <a className="winson" href="">Gavin</a>
+                    <a className="winson" href="">Felicia Putri</a>
                     <span>. All Right
                     Reserved.
                     </span>

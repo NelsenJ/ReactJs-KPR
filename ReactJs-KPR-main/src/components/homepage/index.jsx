@@ -23,7 +23,7 @@ export default function Homepage() {
                 <div className="introduction">
                     <div className="introduction-biodata">
                         <h1>Hi, Namaku</h1>
-                        <h1>Apin</h1>
+                        <h1>gavin</h1>
                         <p>Pelajar Ignatius Global School Palembang</p>
                         <p>di Jurusan Komputer</p>
                     </div>

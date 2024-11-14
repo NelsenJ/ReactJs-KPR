@@ -9,14 +9,8 @@ import Question_perc from "../items/question-Perc";
 import QuestionYear from "../items/question-Year";
 import QuestionBox from "../items/questionBox";
 
-//hello ngantuk nn ak
 export default function PENSI() {
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const [propertyPrice, setPropertyPrice] = useState(0);
-    const [downPaymentPercentage, setDownPaymentPercentage] = useState(0);
-    const [monthlyIncome, setMonthlyIncome] = useState(0);
-    const [loanTerm, setLoanTerm] = useState(0);
-    const [fixedInterestRate, setFixedInterestRate] = useState(0);
     const [showResult, setShowResult] = useState(false);
 
     //Pensiun
@@ -52,39 +46,7 @@ export default function PENSI() {
 
     const navigate = useNavigate();
 
-    const loanAmount = useMemo(() => {
-        if (propertyPrice && downPaymentPercentage) {
-            const downPaymentAmount = (propertyPrice * downPaymentPercentage) / 100;
-            return propertyPrice - downPaymentAmount;
-        }
-        return 0;
-    }, [propertyPrice, downPaymentPercentage]);
 
-    const monthlyPayment = useMemo(() => {
-        if (loanAmount && loanTerm && fixedInterestRate) {
-            const monthlyInterest = fixedInterestRate / 12 / 100;
-            const numberOfPayments = loanTerm * 12;
-            return (loanAmount * monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments)) /
-                   (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
-        }
-        return 0;
-    }, [loanAmount, loanTerm, fixedInterestRate]);
-
-    const totalInterest = useMemo(() => {
-        if (monthlyPayment && loanTerm) {
-            return (monthlyPayment * loanTerm * 12) - loanAmount;
-        }
-        return 0;
-    }, [monthlyPayment, loanTerm, loanAmount]);
-
-
-
-    const monthlyPaymentRatio = useMemo(() => {
-        if (monthlyPayment && monthlyIncome) {
-            return (monthlyPayment / monthlyIncome) * 100;
-        }
-        return 0;
-    }, [monthlyPayment, monthlyIncome]);
 
     useEffect(() => {
         const savedMode = localStorage.getItem('darkMode');
@@ -116,34 +78,7 @@ export default function PENSI() {
     };
 
     const handleShowResult = () => setShowResult(true);
-
-    const handlePropertyPriceChange = (value) => {
-        setPropertyPrice(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, step2: true}));
-    };
-
-    const handleDownPaymentChange = (value) => {
-        setDownPaymentPercentage(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, step3: true, boxOne: true}));
-    };
-
-    const handleMonthlyIncomeChange = (value) => {
-        setMonthlyIncome(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, imgTwo: true, step4: true}));
-    };
-
-    const handleLoanTermChange = (value) => {
-        setLoanTerm(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, step5: true}));
-    };
-
-    const handleFixedInterestChange = (value) => {
-        setFixedInterestRate(Number(value));
-        if (value > 0) setShowSteps(prev => ({...prev, boxTwo: true}));
-    };
     
-
-
     // PENSIUN
     const handleMonthlyExpenseChange = (value) => {
         const monthly = Number(value);
@@ -194,13 +129,10 @@ export default function PENSI() {
             return 0;
         }
 
-        // Future Value of Initial Investment (if available)
         const FV_initial = availableRetirementFund * (1 + annualInvestmentReturn / 100) ** yearsToRetirement;
 
-        // Future Value of Monthly Investment
         const FV_monthly = monthlyInvestmentTarget * (((1 + annualInvestmentReturn / 100 / 12) ** (12 * yearsToRetirement) - 1) / (annualInvestmentReturn / 100 / 12));
 
-        // Total future value from both initial fund and monthly investments
         const totalInvestmentValue = FV_initial + FV_monthly;
 
         return totalInvestmentValue;
@@ -228,17 +160,15 @@ export default function PENSI() {
     const investmentShortfall = totalAmountNeeded > investmentResult ? totalAmountNeeded - investmentResult : 0;
 
     const calculateInitialPrincipal = () => {
-        const r = annualReturn / 100; // Konversi persen menjadi desimal
+        const r = annualReturn / 100;
         const n = yearsUntilRetirement;
         const P = monthlyInvestment;
 
-        // Nilai Masa Depan dari Investasi Bulanan
         const FV_monthly = P * (((1 + r / 12) ** (12 * n) - 1) / (r / 12));
 
-        // Menghitung Pokok Awal yang diperlukan
         const initialPrincipal = (totalAmountNeeded - FV_monthly) / ((1 + r) ** n);
 
-        return initialPrincipal > 0 ? initialPrincipal : 0; // Tampilkan 0 jika hasil negatif
+        return initialPrincipal > 0 ? initialPrincipal : 0;
     };
 
     const requiredInitialInvestment = calculateInitialPrincipal();
