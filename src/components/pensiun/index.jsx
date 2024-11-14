@@ -13,8 +13,8 @@ export default function PENSI() {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [showResult, setShowResult] = useState(false);
 
-    //Pensiun
-    const [monthlyExpense, setMonthlyExpense] = useState(0);
+    //Pensiun 
+    const [monthlyExpense, setMonthlyExpense] = useState(0);     
     const [annualExpense, setAnnualExpense] = useState(0);
     const [currentAge, setCurrentAge] = useState(0);
     const [retirementAge, setRetirementAge] = useState(0);
