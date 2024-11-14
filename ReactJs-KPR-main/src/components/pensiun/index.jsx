@@ -4,7 +4,9 @@ import "./style.css";
 import Footer from "../items/footer";
 import 'boxicons';
 import QuestionImg from "../items/questionImg";
-import Question1 from "../items/question1";
+import QuestionRp from "../items/question-Rp";
+import Question_perc from "../items/question-Perc";
+import QuestionYear from "../items/question-Year";
 import QuestionBox from "../items/questionBox";
 
 //hello ngantuk nn ak
@@ -27,6 +29,9 @@ export default function PENSI() {
     const [availableRetirementFund, setAvailableRetirementFund] = useState(0);
     const [monthlyInvestmentTarget, setMonthlyInvestmentTarget] = useState(0);
     const [annualInvestmentReturn, setAnnualInvestmentReturn] = useState(0);
+    const [monthlyInvestment, setMonthlyInvestment] = useState(0);
+    const [annualReturn, setAnnualReturn] = useState(0);
+    const [yearsUntilRetirement, setYearsUntilRetirement] = useState(0);
     const [showSteps, setShowSteps] = useState({
 
         imgOne: true, 
@@ -179,11 +184,37 @@ export default function PENSI() {
         }
     };
 
+
+
+
+    const calculateInvestmentResult = () => {
+        const yearsToRetirement = retirementAge - currentAge;
+
+        if (yearsToRetirement <= 0 || monthlyInvestmentTarget <= 0 || annualInvestmentReturn <= 0) {
+            return 0;
+        }
+
+        // Future Value of Initial Investment (if available)
+        const FV_initial = availableRetirementFund * (1 + annualInvestmentReturn / 100) ** yearsToRetirement;
+
+        // Future Value of Monthly Investment
+        const FV_monthly = monthlyInvestmentTarget * (((1 + annualInvestmentReturn / 100 / 12) ** (12 * yearsToRetirement) - 1) / (annualInvestmentReturn / 100 / 12));
+
+        // Total future value from both initial fund and monthly investments
+        const totalInvestmentValue = FV_initial + FV_monthly;
+
+        return totalInvestmentValue;
+    };
+
+    const investmentResult = calculateInvestmentResult();
+
+
     const handleInvestmentTargetChange = (value) => {
         setMonthlyInvestmentTarget(Number(value));
         if (value > 0) setShowSteps(prev => ({ ...prev, step7: true }));
     };
 
+    
     const calculateTotalAmountNeeded = () => {
         const totalAmountNeeded = annualExpenseAtRetirement * 25;
         return totalAmountNeeded;
@@ -194,8 +225,25 @@ export default function PENSI() {
         setAvailableRetirementFund(Number(value));
         if (value > 0) setShowSteps(prev => ({ ...prev,  step6:true}));
     };
+    const investmentShortfall = totalAmountNeeded > investmentResult ? totalAmountNeeded - investmentResult : 0;
+
+    const calculateInitialPrincipal = () => {
+        const r = annualReturn / 100; // Konversi persen menjadi desimal
+        const n = yearsUntilRetirement;
+        const P = monthlyInvestment;
+
+        // Nilai Masa Depan dari Investasi Bulanan
+        const FV_monthly = P * (((1 + r / 12) ** (12 * n) - 1) / (r / 12));
+
+        // Menghitung Pokok Awal yang diperlukan
+        const initialPrincipal = (totalAmountNeeded - FV_monthly) / ((1 + r) ** n);
+
+        return initialPrincipal > 0 ? initialPrincipal : 0; // Tampilkan 0 jika hasil negatif
+    };
+
+    const requiredInitialInvestment = calculateInitialPrincipal();
     
-    
+
     useEffect(() => {
         calculateRetirementExpense();
     }, [annualExpense, annualInflation, currentAge, retirementAge]);
@@ -220,7 +268,7 @@ export default function PENSI() {
                 </div>
             </div>
 
-            <div className="content">
+            <div className="content contentpensi">
                 <div className="quotes animate-slide-right">
                     <box-icon type='solid' name='quote-alt-left' color="#808B9C"></box-icon>
                     <p>A goal without a plan is just a wish
@@ -235,7 +283,7 @@ export default function PENSI() {
                 )}
 
                 {showSteps.step1 && (
-                    <Question1 
+                    <QuestionRp 
                         title="Pengeluaran / bulan."
                         onValueChange={handleMonthlyExpenseChange}
                     />
@@ -257,7 +305,7 @@ export default function PENSI() {
                 )}
 
                 {showSteps.step2 && (
-                    <Question1 
+                    <QuestionYear 
                     title="Usiamu sekarang"
                     onValueChange={UmurSekarang}
                     unit="tahun"
@@ -265,7 +313,7 @@ export default function PENSI() {
                 )}
 
                 {showSteps.step3 && (
-                    <Question1 
+                    <QuestionYear 
                     title="Kamu ingin pensiun di usia"
                     onValueChange={UmurPensi}
                     unit="tahun"
@@ -273,7 +321,7 @@ export default function PENSI() {
                 )}
 
                 {showSteps.step4 && (
-                    <Question1 
+                    <Question_perc 
                         title="Asumsi inflasi tahunan"
                         onValueChange={AsumsiInflasiTahunan}
                         unit="% / tahun"
@@ -303,21 +351,21 @@ export default function PENSI() {
             )}
             
             {showSteps.step5 && (
-                    <Question1 
+                    <QuestionRp 
                         title="Dana pensiun yang telah tersedia sampai saat ini"
                         onValueChange={handleRetirementFundChange}
                         unit="% / tahun"
                     />
                 )}
             {showSteps.step6 && (
-                    <Question1 
+                    <QuestionRp
                         title="Target investasimu tiap bulan"
                         onValueChange={handleInvestmentTargetChange}
                         unit="% / tahun"
                     />
                 )}
             {showSteps.step7 && (
-                <Question1 
+                <Question_perc 
                     title="Target return investasi per tahun"
                     onValueChange={handleInvestmentReturnChange}
                     unit="% / tahun"
@@ -352,73 +400,60 @@ export default function PENSI() {
                                 <box-icon name='x'></box-icon>
                             </span>
                         </div>
-                        <h1>Analisa</h1>
+                        {/* <h1>Analisa</h1> */}
                         <div className="analysis">
                             <div className="top">
                                 <box-icon name='info-circle'></box-icon>
-                                <p>Total bunga KPR yang harus kamu bayarkan adalah {formatCurrency(totalInterest)} setara dengan {((totalInterest / loanAmount) * 100).toFixed(2)}% dari pokok pinjamanmu.</p>
+                                <p>Total uang yang kamu butuhkan <br />{formatCurrency(totalAmountNeeded)}</p>
                             </div>
-                            <div className="bottom">
-                                <box-icon name='happy-heart-eyes'></box-icon>
-                                <div>
-                                    <p>Cicilan KPRmu dalam rentang {formatCurrency(monthlyPayment)} dan ini setara dengan {monthlyPaymentRatio.toFixed(2)}% dari penghasilan bulananmu.</p>
-                                    {monthlyPaymentRatio > 30 && (
-                                        <>
-                                            <p className="analysis-color">Rasio ini sudah berbahaya, karena berpotensi mengganggu cash flow mu di masa depan.</p>
-                                            <p className="analysis-color">Pertimbangkan untuk menambah DP atau memperpanjang masa KPR mu.</p>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
+
                         </div>
                                 
                         <h1>Strategimu</h1>
                         <div className="strategy">
                             <div>
                                 <box-icon type='solid' name='bank'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Pokok Pinjaman</h1>
-                                    <h1>{formatCurrency(loanAmount)}</h1>
+                                <div className="strategy-content pensiunh1">
+                                    <h1>Uangmu saat ini</h1>
+                                    <h1>{formatCurrency(availableRetirementFund)}</h1>
                                     <div className="underscores"></div>
                                 </div>
                             </div>
                             <div>
                                 <box-icon name='credit-card' type='solid'></box-icon>
                                 <div className="strategy-content">
-                                    <h1>Periode KPR</h1>
-                                    <h1>{loanTerm} Tahun ({loanTerm * 12} Bulan)</h1>
+                                    <h1>Jumlah investasi/bulan</h1>
+                                    <h1>{formatCurrency(monthlyInvestmentTarget)}</h1>
+                                    <div className="underscores"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <box-icon name='credit-card' type='solid'></box-icon>
+                                <div className="strategy-content">
+                                    <h1>Return investasi</h1>
+                                    <h1>{annualInvestmentReturn}% / tahun</h1>
                                     <div className="underscores"></div>
                                 </div>
                             </div>
                             <div>
                                 <box-icon name='money'></box-icon>
                                 <div className="strategy-content">
-                                    <h1>Bunga Fix</h1>
-                                    <h1>{fixedInterestRate}%</h1>
+                                    <h1>Lama investasi</h1>
+                                    <h1>{retirementAge - currentAge} tahun</h1>
+
                                     <div className="underscores"></div>
                                 </div>
                             </div>
                             <div>
                                 <box-icon type='solid' name='bank'></box-icon>
                                 <div className="strategy-content">
-                                    <h1>Total Bunga KPR</h1>
-                                    <h1>{formatCurrency(totalInterest)}</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon name='credit-card' type='solid'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>Angsuran Bulanan</h1>
-                                    <h1>{formatCurrency(monthlyPayment)}</h1>
-                                    <div className="underscores"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <box-icon name='money'></box-icon>
-                                <div className="strategy-content">
-                                    <h1>% Total Bunga dari Pokok Pinjaman</h1>
-                                    <h1>{((totalInterest / loanAmount) * 100).toFixed(2)}%</h1>
+                                    <h1>Hasil investasi</h1>
+                                    <h1>{formatCurrency(investmentResult)}</h1>
+                                    {investmentShortfall > 0 && (
+                                        <div className="ngutang">
+                                            <i>Kurang {formatCurrency(investmentShortfall)}</i>
+                                        </div>
+                                    )}
                                     <div className="underscores"></div>
                                 </div>
                             </div>

@@ -51,6 +51,7 @@
     margin: 2rem auto;
     color: #FFFFFF;
     position: relative;
+
   }
   
   /* Quotes Styles */
@@ -473,4 +474,13 @@
   }
   p.kedua{
     font-size: 1.2rem !important;
+  }
+  .contentpensi{
+    /* height: 200vh; */
+  }
+  .ngutang{
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-align: center;
+    color: red;
   }
