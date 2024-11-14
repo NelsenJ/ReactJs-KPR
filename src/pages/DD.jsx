@@ -4,26 +4,18 @@ import Footer from '../components/items/footer';
 import QuestionImg from '../components/items/questionImg';
 import QuestionRp from '../components/items/question-Rp';
 import QuestionPerc from '../components/items/question-Perc';
-import QuestionBox from '../components/items/questionBox';
 import QuestionYear from '../components/items/question-Year';
-import QuestionOpt from '../components/items/questionOpt';
 import Quote from '../components/items/quote';
 
 const EmergencyFundCalculator = () => {
-  // Theme State
   const [isDarkMode, setIsDarkMode] = useState(true);
-
-  // Input States
-  const [monthlyExpenses, setMonthlyExpenses] = useState(0);
-  const [dependents, setDependents] = useState(0);
-  const [monthlyIncome, setMonthlyIncome] = useState(0);
-  const [emergencyFundDuration, setEmergencyFundDuration] = useState(0);
-  const [currentEmergencyFund, setCurrentEmergencyFund] = useState(0);
-  const [targetMonthlyInvestment, setTargetMonthlyInvestment] = useState(0);
-  const [targetInvestmentReturn, setTargetInvestmentReturn] = useState(0);
-
-  // UI Control States
-  const [showResult, setShowResult] = useState(false);
+  const [inputs, setInputs] = useState({
+    monthlyExpenses: 0,
+    dependents: 0,
+    monthlyIncome: 0,
+    emergencyFundDuration: 0,
+    currentEmergencyFund: 0,
+  });
   const [showSteps, setShowSteps] = useState({
     imgOne: true,
     step1: true,
@@ -32,90 +24,60 @@ const EmergencyFundCalculator = () => {
     step4: false,
     imgTwo: false,
     step5: false,
-    step6: false,
-    step7: false,
-    step8: false,
-    boxTwo: false
+    result: false,
   });
 
   const navigate = useNavigate();
 
-  // Derived States
   const requiredEmergencyFund = useMemo(() => {
-    if (monthlyExpenses > 0 && dependents >= 0 && emergencyFundDuration > 0) {
-      return monthlyExpenses * (dependents + 1) * emergencyFundDuration;
-    }
-    return 0;
-  }, [monthlyExpenses, dependents, emergencyFundDuration]);
+    const { monthlyExpenses, dependents, emergencyFundDuration } = inputs;
+    return monthlyExpenses > 0 && dependents >= 0 && emergencyFundDuration > 0
+      ? monthlyExpenses * (dependents + 1) * emergencyFundDuration
+      : 0;
+  }, [inputs]);
 
   const remainingEmergencyFund = useMemo(() => {
-    if (requiredEmergencyFund > 0 && currentEmergencyFund >= 0) {
-      return Math.max(0, requiredEmergencyFund - currentEmergencyFund);
-    }
-    return 0;
-  }, [requiredEmergencyFund, currentEmergencyFund]);
+    const { currentEmergencyFund } = inputs;
+    return Math.max(0, requiredEmergencyFund - currentEmergencyFund);
+  }, [requiredEmergencyFund, inputs]);
 
-  // Utility Functions
   const formatCurrency = (amount) =>
     new Intl.NumberFormat('id-ID', {
       style: 'currency',
-      currency: 'IDR'
+      currency: 'IDR',
     }).format(amount || 0);
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    localStorage.setItem('darkMode', !isDarkMode);
-    document.body.classList.toggle('light-mode');
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    localStorage.setItem('darkMode', newMode);
+    document.body.classList.toggle('light-mode', !newMode);
   };
 
-  // Handlers
-  const handleClick = () => navigate('/');
+  const handleInputChange = (field, value) => {
+    setInputs((prev) => ({
+      ...prev,
+      [field]: Math.max(0, Number(value) || 0),
+    }));
 
-  const handleShowResult = () => setShowResult(true);
+    const stepMapping = {
+      monthlyExpenses: 'step2',
+      dependents: 'step3',
+      monthlyIncome: 'step4',
+      emergencyFundDuration: 'step5',
+      currentEmergencyFund: 'result',
+    };
 
-  const handleMonthlyExpensesChange = (value) => {
-    setMonthlyExpenses(Number(value) || 0);
-    setShowSteps((prev) => ({ ...prev, step2: true }));
-  };
-
-  const handleDependentsChange = (value) => {
-    setDependents(Number(value) || 0);
-    setShowSteps((prev) => ({ ...prev, step3: true }));
-  };
-
-  const handleMonthlyIncomeChange = (value) => {
-    setMonthlyIncome(Number(value) || 0);
-    setShowSteps((prev) => ({ ...prev, imgTwo: true, step4: true }));
-  };
-
-  const handleEmergencyFundDurationChange = (value) => {
-    const duration = Number(value) || 0;
-    if (duration > 0) {
-      setEmergencyFundDuration(duration);
-      setShowSteps((prev) => ({ ...prev, step5: true }));
+    if (stepMapping[field]) {
+      setShowSteps((prev) => ({ ...prev, [stepMapping[field]]: true }));
     }
-  };
-  
-  
-
-  const handleCurrentEmergencyFundChange = (value) => {
-    setCurrentEmergencyFund(Number(value) || 0);
-    setShowSteps((prev) => ({ ...prev, boxTwo: true }));
-  };
-
-  const handleTargetMonthlyInvestmentChange = (value) => {
-    setTargetMonthlyInvestment(Number(value) || 0);
-  };
-
-  const handleTargetInvestmentReturnChange = (value) => {
-    setTargetInvestmentReturn(Number(value) || 0);
   };
 
   return (
     <>
       <div className="header hed">
         <div className="header-flex">
-          <span onClick={handleClick}>
+          <span onClick={() => navigate('/')}>
             <box-icon name="arrow-back"></box-icon>
           </span>
           <h1 className="header-title">‼️ Emergency Fund Calculator</h1>
@@ -138,7 +100,7 @@ const EmergencyFundCalculator = () => {
         {showSteps.step1 && (
           <QuestionRp
             title="Your monthly expenses"
-            onValueChange={handleMonthlyExpensesChange}
+            onValueChange={(value) => handleInputChange('monthlyExpenses', value)}
           />
         )}
 
@@ -147,70 +109,76 @@ const EmergencyFundCalculator = () => {
             title="Number of dependents"
             text="persons"
             color="#014737"
-            onValueChange={handleDependentsChange}
+            onValueChange={(value) => handleInputChange('dependents', value)}
           />
         )}
 
         {showSteps.step3 && (
           <QuestionRp
             title="Your monthly income"
-            onValueChange={handleMonthlyIncomeChange}
-          />
-        )}
-
-        {showSteps.imgTwo && (
-          <QuestionImg
-            imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-3.webp"
-            text="Thank You!"
-            text2="Next, let's set your emergency fund strategy!"
+            onValueChange={(value) => handleInputChange('monthlyIncome', value)}
           />
         )}
 
         {showSteps.step4 && (
           <QuestionYear
             title="How long do you want to save for your emergency fund?"
-            onValueChange={handleEmergencyFundDurationChange}
+            onValueChange={(value) => handleInputChange('emergencyFundDuration', value)}
           />
         )}
 
         {showSteps.step5 && (
           <QuestionRp
             title="How much do you have in your emergency fund now?"
-            onValueChange={handleCurrentEmergencyFundChange}
+            onValueChange={(value) => handleInputChange('currentEmergencyFund', value)}
           />
         )}
 
-        {showResult && (
-          <div className="result-summary animate-slide-down">
-            <div className="result-summary-header">
-              <span onClick={() => setShowResult(false)} className="close-result-summary">
-                <box-icon name="x"></box-icon>
-              </span>
-            </div>
-            <h1>Analysis</h1>
-            <div className="analysis">
-              <div className="top">
-                <box-icon name="info-circle"></box-icon>
-                <p>Your required emergency fund is {formatCurrency(requiredEmergencyFund)}.</p>
-              </div>
-              <div className="bottom">
-                <box-icon name="happy-heart-eyes"></box-icon>
-                <div>
-                  <p>
-                    You currently have {formatCurrency(currentEmergencyFund)} in your emergency fund, which means you
-                    need to save an additional {formatCurrency(remainingEmergencyFund)}.
-                  </p>
-                  {remainingEmergencyFund > 0 && (
-                    <p className="analysis-color">
-                      This amount is still missing from your emergency fund. You should increase your monthly
-                      investments to reach your target.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+{showSteps.result && (
+  <div className="result-summary animate-slide-down">
+    <div className="result-summary-header">
+      <span onClick={() => setShowSteps((prev) => ({ ...prev, result: false }))}>
+        <box-icon name="x"></box-icon>
+      </span>
+    </div>
+    <h1>Analysis</h1>
+    <div className="analysis">
+      <div className="top">
+        <box-icon name="info-circle"></box-icon>
+        <p>
+          The total emergency fund required is <strong>{formatCurrency(requiredEmergencyFund)}</strong>. 
+          This is calculated based on your monthly expenses, the number of dependents, and the duration you specified.
+        </p>
+      </div>
+      <div className="bottom">
+        <box-icon name="check-circle"></box-icon>
+        <p>
+          You currently have <strong>{formatCurrency(inputs.currentEmergencyFund)}</strong> saved, 
+          which is {((inputs.currentEmergencyFund / requiredEmergencyFund) * 100).toFixed(2)}% of your target.
+        </p>
+        {remainingEmergencyFund > 0 && (
+          <>
+            <box-icon name="exclamation-circle"></box-icon>
+            <p className="analysis-warning">
+              You need an additional <strong>{formatCurrency(remainingEmergencyFund)}</strong> to reach your goal.
+            </p>
+            {remainingEmergencyFund / requiredEmergencyFund > 0.5 && (
+              <p className="analysis-recommendation">
+                Consider adjusting your monthly savings or extending the duration to make the goal more achievable.
+              </p>
+            )}
+          </>
         )}
+        {remainingEmergencyFund <= 0 && (
+          <p className="analysis-success">
+            Congratulations! You have met or exceeded your emergency fund goal. 🎉
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
       <Footer />
     </>
