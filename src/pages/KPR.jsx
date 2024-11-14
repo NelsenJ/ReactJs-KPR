@@ -86,7 +86,18 @@ export default function KPR() {
         setIsDarkMode(!isDarkMode);
         localStorage.setItem('darkMode', !isDarkMode);
         document.body.classList.toggle('light-mode');
+        
+        // Update the color attribute of all box-icon elements based on the mode
+        const boxIcons = document.querySelectorAll("box-icon");
+        boxIcons.forEach(icon => {
+            if (!isDarkMode) {
+                icon.setAttribute("color", "#FFFFFF"); // Dark color for light mode
+            } else {
+                icon.setAttribute("color", "#1E293B"); // Light color for dark mode
+            }
+        });
     };
+    
 
     const handleClick = () => {
         navigate('/');
@@ -188,7 +199,8 @@ export default function KPR() {
                     <QuestionBox 
                         title="Jumlah Pinjaman"
                         text={formatCurrency(loanAmount)}
-                        color="#014737"
+                        color={isDarkMode ? "#014737" : "#bbefda"} // White for light mode, dark for dark mode
+                        textColor={isDarkMode ? "#FFFFFF" : "#000000"} // Black text for light mode, white text for dark mode
                     />
                 )}
 
@@ -222,21 +234,23 @@ export default function KPR() {
                 )}
 
                 {showSteps.boxTwo && (
-                     <QuestionBox 
+                    <QuestionBox 
                         title="Angsuran Bulanan"
                         text={formatCurrency(monthlyPayment)}
-                        color="#334155"
+                        color={isDarkMode ? "#334155" : "#CBD5E1"} // White for light mode, dark for dark mode
+                        textColor={isDarkMode ? "#FFFFFF" : "#000000"} // Black text for light mode, white text for dark mode
                     />
                 )}
+
 
                 {showSteps.boxTwo && (
                     <div className="hasil">
                         <div>
-                            <p>Yay, mimpimu sudah jauh lebih nyata.</p>
-                            <p>Ayo lihat hasil strategimu</p>
+                            <p className="yay">Yay, mimpimu sudah jauh lebih nyata.</p>
+                            <p className="yok">Ayo lihat hasil strategimu</p>
                         </div>
-                        <button onClick={handleShowResult}>
-                            <box-icon name='chevron-right' color="#FFFFFF"></box-icon>
+                        <button className="butttt" onClick={handleShowResult}>
+                            <box-icon name='chevron-right' color={isDarkMode ? "#FFFFFF" : "#000000"} ></box-icon>
                         </button>
                     </div>
                 )}
