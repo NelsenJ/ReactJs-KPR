@@ -20,13 +20,13 @@ export default function Homepage() {
                 <div className="introduction">
                     <div className="introduction-biodata">
                         <h1>Hi, Namaku</h1>
-                        <h1>Winson</h1>
-                        <p>Pelajar Ignatius Global School Palembang</p>
+                        <h1>Sepri</h1>
+                        <p>Guru Ignatius Global School Palembang</p>
                         <p>di Jurusan Komputer</p>
                     </div>
                     <img 
                         className="introduction-image" 
-                        src="https://www.ignatiusglobal.sch.id/media_library/images/09666a0849a5cc9a158cf4077a779ea9.png" 
+                        src="https://res.cloudinary.com/dzhv3xwos/image/upload/v1731548794/felishiaputri_mt2wie.gif" 
                         alt="my mascot"
                     />
                 </div>
