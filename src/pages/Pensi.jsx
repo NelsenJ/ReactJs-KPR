@@ -120,9 +120,6 @@ export default function PENSI() {
         }
     };
 
-
-
-
     const calculateInvestmentResult = () => {
         const yearsToRetirement = retirementAge - currentAge;
 
