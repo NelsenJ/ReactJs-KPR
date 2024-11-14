@@ -534,7 +534,7 @@ input::-webkit-inner-spin-button {
 
 .option-button {
   padding: 10px 20px;
-  background-color: #334155;
+  background-color: rgb(51 65 85);
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -542,6 +542,8 @@ input::-webkit-inner-spin-button {
   transition: background-color 0.3s;
 }
 
-.option-button:hover {
-  background-color: #4b5563;
+.option-button:hover,
+.option-button:active{
+  background-color: rgb(164 202 254);
 }
+
