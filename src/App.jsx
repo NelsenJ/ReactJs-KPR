@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./components/homepage"
 import Container from "./components/items/container"
 import KPR from "./components/kpr";
-import { ThemeProvider } from "./components/contexts/themeContext";
+import { ThemeProvider } from "./components/contexts/ThemeContext";
 import 'boxicons'
 
 function App() {
