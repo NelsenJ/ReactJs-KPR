@@ -5,6 +5,7 @@ import Footer from "../components/items/footer";
 import 'boxicons';
 import QuestionImg from "../components/items/questionImg";
 import QuestionRp from "../components/items/question-Rp";
+import QuestionOpt from "../components/items/questionOpt";
 import QuestionPerc from "../components/items/question-Perc";
 import QuestionBox from "../components/items/questionBox";
 import QuestionYear from "../components/items/question-Year";
@@ -142,7 +143,6 @@ export default function Calculator() {
                         text="Kita mulai dari properti impianmu."
                     />
                 )}
-
                 {showSteps.step1 && (
                     <QuestionRp
                         title="Jumlah uang yang ingin kamu capai"
@@ -150,8 +150,20 @@ export default function Calculator() {
                     />
                 )}
 
+                <div className="preset-options">
+                    {[10000000, 50000000, 100000000, 1000000000].map((amount) => (
+                        <button 
+                            key={amount} 
+                            onClick={() => handlePropertyPriceChange(amount)} 
+                            className="preset-option-button"
+                        >
+                            {formatCurrency(amount)}
+                        </button>
+                    ))}
+                </div>
+
                 {showSteps.step2 && (
-                    <QuestionPerc 
+                    <QuestionYear 
                         title="Waktu mengumpulkan uang ini"
                         onValueChange={handleDownPaymentChange}
                     />
@@ -163,7 +175,6 @@ export default function Calculator() {
                         text="Thank You!"
                         text2={"Next, ayo atur strategi investasi kamu!"}
                     />
-
                 )}
 
                 {showSteps.step3 && (
@@ -173,48 +184,42 @@ export default function Calculator() {
                     />
                 )}
 
-                {showSteps.imgTwo && (
-                    <QuestionImg 
-                        imgSrc="https://feliciaputritjiasaka.com/assets/avatar/avatar-3.webp"
-                        text="Thank You!"
-                        text2="Next, kita butuh informasi detail KPR mu!"
-                    />
-                )}
-
                 {showSteps.step4 && (
-                    <QuestionYear
-                        title="Kamu mau KPR berapa lama?"
+                    <QuestionOpt
+                        title="Kamu akan menabung setiap"
+                        options={[
+                            { label: "Tahun", value: "Tahun" },
+                            { label: "Bulan", value: "Bulan" },
+                        ]}
                         onValueChange={handleLoanTermChange}
                     />
                 )}
 
                 {showSteps.step5 && (
-                    <QuestionRp 
-                        title="% Bunga fix"
-                        onValueChange={handleFixedInterestChange}
+                    <QuestionOpt
+                        title="Kamu akan menambahkan dana pada"
+                        options={[
+                            { label: "Awal", value: "Awal Tahun" },
+                            { label: "Akhir", value: "Akhir Tahun" },
+                        ]}
+                        onValueChange={handleLoanTermChange}
                     />
                 )}
 
                 {showSteps.boxTwo && (
-                     <QuestionBox 
-                        title="Angsuran Bulanan"
+                    <QuestionRp
+                        title="Target investasimu tiap tahun sebesar"
                         text={formatCurrency(monthlyPayment)}
                         color="#334155"
                     />
                 )}
 
-                {showSteps.boxTwo && (
-                    <div className="hasil">
-                        <div>
-                            <p>Yay, mimpimu sudah jauh lebih nyata.</p>
-                            <p>Ayo lihat hasil strategimu</p>
-                        </div>
-                        <button onClick={handleShowResult}>
-                            <box-icon name='chevron-right' color="#FFFFFF"></box-icon>
-                        </button>
-                    </div>
+                {showSteps.step6 && (
+                    <QuestionPerc
+                        title="Kamu akan investasi di produk yang returnnya"
+                        onValueChange={handleFixedInterestChange}
+                    />
                 )}
-
 
                 {showResult && (
                     <div className="result-summary animate-slide-down">
@@ -242,7 +247,7 @@ export default function Calculator() {
                                 </div>
                             </div>
                         </div>
-                                
+
                         <h1>Strategimu</h1>
                         <div className="strategy">
                             <div>
@@ -296,8 +301,8 @@ export default function Calculator() {
                         </div>
                     </div>
                 )}
-        </div>
-        <Footer />
+            </div>
+            <Footer />
         </>
     );
 }
