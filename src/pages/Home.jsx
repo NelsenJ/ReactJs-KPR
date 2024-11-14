@@ -109,7 +109,6 @@ export default function Homepage() {
                 </div>
             </div>
 
-            <hr />
             <Footer />
         </>
     );

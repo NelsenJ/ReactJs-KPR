@@ -295,7 +295,7 @@ export default function KPR() {
                         </div>
                     </div>
                 )}
-        </div>
+            </div>
         <Footer />
         </>
     );
