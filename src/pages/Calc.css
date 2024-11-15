@@ -593,3 +593,11 @@ div.strategy div div.strategy-content{
   display: flex;
   flex-direction: column;
 }
+
+.light-mode .hasil div{
+  color: black;
+}
+
+.light-mode .hasil div#icon{
+  color:  #000 !important;
+}
