@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/items/footer';
 import QuestionImg from '../components/items/questionImg';
@@ -28,6 +28,16 @@ const EmergencyFundCalculator = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode !== null) {
+        setIsDarkMode(savedMode === 'true');
+        if (savedMode === 'false') {
+            document.body.classList.add('light-mode');
+        }
+    }
+}, []);
 
   const requiredEmergencyFund = useMemo(() => {
     const { monthlyExpenses, dependents, emergencyFundDuration } = inputs;
@@ -78,11 +88,42 @@ const EmergencyFundCalculator = () => {
       <div className="header hed">
         <div className="header-flex">
           <span onClick={() => navigate('/')}>
-            <box-icon name="arrow-back"></box-icon>
+            {isDarkMode ? (
+              <box-icon name='arrow-back'color='#fff'></box-icon>
+            ) : (
+              <box-icon name='arrow-back'color='#000'></box-icon>
+            )}
           </span>
           <h1 className="header-title">‼️ Emergency Fund Calculator</h1>
           <p className="header-dark-mode" onClick={toggleDarkMode}>
-            {isDarkMode ? '☀️' : '🌙'}
+            {isDarkMode ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 64 64"
+                width="32"
+                height="32"
+              >
+                <circle cx="32" cy="32" r="10" fill="#fff" />
+                <circle cx="36" cy="28" r="7" fill="#1E293B" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 64 64"
+                width="32"
+                height="32"
+              >
+                <circle cx="32" cy="32" r="4" fill="#000" />
+                <line x1="32" y1="20" x2="32" y2="24" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="32" y1="40" x2="32" y2="44" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="20" y1="32" x2="24" y2="32" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="40" y1="32" x2="44" y2="32" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="23" y1="23" x2="26" y2="26" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="38" y1="38" x2="41" y2="41" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="23" y1="41" x2="26" y2="38" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+                <line x1="41" y1="23" x2="38" y2="26" stroke="#000" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            )}
           </p>
         </div>
       </div>
